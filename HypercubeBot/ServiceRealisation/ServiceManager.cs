@@ -8,6 +8,7 @@ public static class ServiceManager
 {
     private static bool _isCreated;
     private static readonly List<object> Services = [];
+    private static readonly Logger Logger = LoggingManager.GetLogger(nameof(ServiceManager));
 
     public static void InitAll()
     {
@@ -53,6 +54,8 @@ public static class ServiceManager
             return;
         
         _isCreated = true;
+
+        var ctors = new List<Type>();
         
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
@@ -65,13 +68,18 @@ public static class ServiceManager
                     continue;
 
                 DependencyManager.Register(type, type);
-                var service = DependencyManager.Instantiate(type);
-                Services.Add(service);
-
-                InjectLogger(service);
-                
-                Console.WriteLine($"Instantiated {type.Name}");
+                ctors.Add(type);
             }
+        }
+
+        foreach (var ctor in ctors)
+        {
+            var service = DependencyManager.Instantiate(ctor);
+            Services.Add(service);
+
+            InjectLogger(service);
+                
+            Logger.Debug($"Instantiated {ctor.Name}");
         }
     }
 }

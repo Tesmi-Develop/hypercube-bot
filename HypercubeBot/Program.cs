@@ -5,7 +5,7 @@ namespace HypercubeBot;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         DependencyManager.InitThread();
         
@@ -13,9 +13,6 @@ public class Program
         ServiceManager.InitAll();
         ServiceManager.StartAll();
 
-        while (true)
-        {
-            
-        }
+        await Task.Delay(-1);
     }
 }

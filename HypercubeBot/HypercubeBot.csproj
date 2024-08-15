@@ -8,9 +8,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Discord.Net" Version="3.15.3" />
+      <PackageReference Include="dotenv.net" Version="3.2.0" />
       <PackageReference Include="Hypercube.Dependecies" Version="1.0.0" />
       <PackageReference Include="Hypercube.Logging" Version="1.0.0" />
       <PackageReference Include="Hypercube.Utilities" Version="1.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include=".env" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>
 
 </Project>
