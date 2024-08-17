@@ -13,10 +13,16 @@
       <PackageReference Include="Hypercube.Dependecies" Version="1.0.0" />
       <PackageReference Include="Hypercube.Logging" Version="1.0.0" />
       <PackageReference Include="Hypercube.Utilities" Version="1.0.0" />
+      <PackageReference Include="MongoDB.Driver" Version="2.28.0" />
+      <PackageReference Include="MongooseOS.Rpc" Version="2.0.1" />
     </ItemGroup>
 
     <ItemGroup>
         <None Include=".env" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Commands\" />
     </ItemGroup>
 
 </Project>
