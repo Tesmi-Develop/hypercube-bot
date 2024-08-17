@@ -6,6 +6,6 @@ public interface IReadonlyGuild
 {
     ObjectId DataId { get; }
     string GuildId { get; }
-    string? RepositoryUrl { get; }
+    List<string> RepositoryUrls { get; }
     string? RoleId { get; }
 }

@@ -9,6 +9,6 @@ public class Guild(string guildId) : IReadonlyGuild
     public ObjectId DataId { get; private set; }
     public string GuildId { get; private set; } = guildId;
 
-    public string? RepositoryUrl { get; set; }
+    public List<string> RepositoryUrls { get; set; } = new();
     public string? RoleId { get; set; }
 }
