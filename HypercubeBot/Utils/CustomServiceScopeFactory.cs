@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace HypercubeBot.Utils;
 
@@ -7,11 +6,11 @@ namespace HypercubeBot.Utils;
 /// Средство для наёба Microsoft хуйни
 /// В кратце: Microsoft хуйня параша, Hypercube победа наша!
 /// </summary>
-public class CustomServiceScropeFactory : IServiceScopeFactory
+public class CustomServiceScopeFactory : IServiceScopeFactory
 {
     private DependencyContainerWrapper _wrapper;
     
-    public CustomServiceScropeFactory(DependencyContainerWrapper wrapper)
+    public CustomServiceScopeFactory(DependencyContainerWrapper wrapper)
     {
         _wrapper = wrapper;
     }

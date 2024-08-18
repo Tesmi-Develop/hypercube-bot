@@ -7,12 +7,15 @@ using MongoDB.Driver;
 namespace HypercubeBot.Services;
 
 [Service]
-public class MongoService : IInitializable
+public sealed class MongoService : IInitializable
 {
+    public event Action<GuildWrapper>? GuildCreated;
+    
     private MongoClient _client = default!;
     private IMongoDatabase _database = default!;
     private IMongoCollection<Guild> _collection = default!;
     private readonly Logger _logger = default!;
+    private readonly Dictionary<string, WeakReference<GuildWrapper>> _guildWrappers = new();
     
     public void Init()
     {
@@ -29,8 +32,26 @@ public class MongoService : IInitializable
         _collection = _database.GetCollection<Guild>("Guilds");
     }
 
+    public List<Guild> GetGuilds()
+    {
+        return _collection.Find(_ => true).ToList();
+    }
+
     public GuildWrapper GetGuild(string guildId)
     {
-        return new GuildWrapper(guildId, _collection);
+        if (_guildWrappers.TryGetValue(guildId, out var weakRef) && weakRef.TryGetTarget(out var guild))
+        {
+            return guild;
+        }
+        
+        var guildWrapper = new GuildWrapper(guildId, _collection);
+        _guildWrappers.Add(guildId, new WeakReference<GuildWrapper>(guildWrapper));
+        
+        if (guildWrapper.IsNewData)
+        {
+            GuildCreated?.Invoke(guildWrapper);
+        }
+        
+        return guildWrapper;
     }
 }

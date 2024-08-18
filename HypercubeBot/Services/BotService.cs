@@ -32,10 +32,10 @@ public class BotService : IStartable
                              GatewayIntents.GuildEmojis
         };
 
-        _dependencyWrapper = new(DependencyManager.GetContainer());
+        _dependencyWrapper = new DependencyContainerWrapper(DependencyManager.GetContainer());
         _client = new DiscordSocketClient(config);
         
-        DependencyManager.Register<IServiceScopeFactory>(_ => new CustomServiceScropeFactory(_dependencyWrapper));
+        DependencyManager.Register<IServiceScopeFactory>(_ => new CustomServiceScopeFactory(_dependencyWrapper));
         DependencyManager.Register(_client);
         DependencyManager.Register(x => new InteractionService(x.Resolve<DiscordSocketClient>()));
         
@@ -54,7 +54,7 @@ public class BotService : IStartable
         _client.Ready += async () =>
         {
             _commands = new InteractionService(_client);
-            Console.WriteLine(_dependencyWrapper.GetService(typeof(BotService)));
+            
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _dependencyWrapper);
 
             _client.InteractionCreated += HandleInteraction;
@@ -81,8 +81,6 @@ public class BotService : IStartable
         try
         {
             var ctx = new SocketInteractionContext(_client, arg);
-            DependencyManager.InitThread();
-            
             await _commands.ExecuteCommandAsync(ctx, _dependencyWrapper);
         }
         catch (Exception ex)
