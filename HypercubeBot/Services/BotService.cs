@@ -14,6 +14,8 @@ namespace HypercubeBot.Services;
 [Service]
 public class BotService : IStartable
 {
+    public DiscordSocketClient Client => _client;
+    
     private readonly Logger _logger = default!;
     private DiscordSocketClient _client = default!;
     private InteractionService _commands = default!;
@@ -29,7 +31,8 @@ public class BotService : IStartable
                              GatewayIntents.Guilds |
                              GatewayIntents.GuildMessages | GatewayIntents.GuildMessageReactions |
                              GatewayIntents.GuildBans |
-                             GatewayIntents.GuildEmojis
+                             GatewayIntents.GuildEmojis,
+            AlwaysDownloadUsers = true
         };
 
         _dependencyWrapper = new DependencyContainerWrapper(DependencyManager.GetContainer());
