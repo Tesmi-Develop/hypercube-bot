@@ -8,11 +8,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ccb13ff-4094-4828-990f-48f2f1a004ba" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/HypercubeBot/Classes/TrackingGuild.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HypercubeBot/Services/OAUTHService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HypercubeBot/Schemas/CollectionAttribute.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HypercubeBot/Schemas/DiscordUser.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HypercubeBot/Schemas/ISchema.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HypercubeBot/Schemas/Schema.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HypercubeBot/Utils/ReflectionHelper.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HypercubeBot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HypercubeBot/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HypercubeBot/Services/BotService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Services/BotService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HypercubeBot/Services/TrackingContributors.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Services/TrackingGuilds.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Classes/TrackingGuild.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Commands/AddRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Commands/AddRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Commands/GetAllRepositories.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Commands/GetAllRepositories.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Commands/RemoveRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Commands/RemoveRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/HypercubeBot.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/HypercubeBot.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Schemas/Guild.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Schemas/GuildSchema.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Schemas/GuildWrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Schemas/DataWrapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Schemas/IReadonlyGuild.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Schemas/IReadonlyGuild.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/ServiceRealisation/AttributeService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/ServiceRealisation/AttributeService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/ServiceRealisation/ServiceManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/ServiceRealisation/ServiceManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Services/MongoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Services/MongoService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Services/OAUTHService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Services/OauthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Services/TrackingGuilds.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +106,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b7208b3f72528d22781d25fde9a55271bdf2b5aade4f03b1324579a25493cd8/List.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc6de34d629db31f4d493c146b004f70e882f4c9ef6dd0ee74a4b8e6238816/AllowedMentions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c1c946eaa6d8ddaaea1b63e936ca8ed2791d9316c5b025a41d445891e8a59ecd/DefaultInterpolatedStringHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c2193d455f4eb674542abaa53aa1e506f476d57454e5aa7b16b8271bb42fdd/IFindFluent.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c2c971b3c1f289206f5ab0aac7bce854e74dd71335b14459b174dfecebf5b7/SocketGuildUser.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c68f7d826d2b8b1086925d38761652b6bb66261662190bd728cb85aff75a6d9/InteractionModuleBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c7e235325d3b26fa672853149c88a6da45daf3ee7da5d604bdbcb488fb12111/ModuleClassBuilder.cs" root0="SKIP_HIGHLIGHTING" />
@@ -99,6 +114,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d5a9d2179b0fd7c3bf9d8cad2b1b85cfd8f51ff3375b4d3fd677eee914cb50/Iterator.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d6ebe4ab5f5966972757f66ab15673f9f3e81d9b83b7d3b9f5ad9642418c7f/SummaryAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d791c3eb25297f33ebfc088aa821fe66a8a3a295b63fbd1a1d8f4b2e77e1017/ReadOnlySpan.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d7fd665bf3b3479e1b42d469191ce18f9a9fb07d6acfadb046c21534e1ef65e9/MemberInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d882146b4f265f10bcbec2663fce248db9ffec5fa1aeaf76e32a11ba5eafcd6/MethodBaseInvoker.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/dbad425389ce87a11db1d22b2ab7f978e8e9ec4538bfcfbb79324d1545c0/InteractionService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ddd4506ccd4b5bc8320a022f9ea656ebc27164beb581e226d092334bf89d9d/MongoClient.cs" root0="SKIP_HIGHLIGHTING" />
@@ -130,8 +146,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Project.HypercubeBot.executor": "Debug",
+    ".NET Project.HypercubeBot.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "XThreadsFramesViewSplitterKey": "0.7330317",
     "full.screen.before.presentation.mode": "false",
     "git-widget-placeholder": "master",
     "node.js.detected.package.eslint": "true",
@@ -184,7 +201,7 @@
       <workItem from="1723822206194" duration="8918000" />
       <workItem from="1723868363222" duration="5506000" />
       <workItem from="1723900351394" duration="17726000" />
-      <workItem from="1723962251438" duration="16881000" />
+      <workItem from="1723962251438" duration="26228000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <option name="closed" value="true" />
@@ -244,23 +261,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="feat: added BotService, GithubService" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/HypercubeBot/Services/OAUTHService.cs</url>
-          <line>66</line>
-          <properties documentPath="E:\Projects\C#\hypercube-bot\HypercubeBot\Services\OAUTHService.cs" containingFunctionPresentation="Method 'ProcessContextAsync'">
-            <startOffsets>
-              <option value="2396" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2453" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Type#HypercubeBot.Schemas.Guild" memberName="GuildId" />

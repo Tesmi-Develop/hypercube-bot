@@ -21,4 +21,8 @@
         <None Include=".env" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Classes\" />
+    </ItemGroup>
+
 </Project>

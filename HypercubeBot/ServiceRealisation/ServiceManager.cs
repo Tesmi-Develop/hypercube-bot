@@ -64,7 +64,7 @@ public static class ServiceManager
                 if (!type.IsClass) 
                     continue;
                 
-                if (!Attribute.IsDefined(type, typeof(Service))) 
+                if (!Attribute.IsDefined(type, typeof(ServiceAttribute))) 
                     continue;
 
                 DependencyManager.Register(type, type);

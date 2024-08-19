@@ -1,7 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Frozen;
+using System.Diagnostics;
 using Hypercube.Shared.Logging;
 using HypercubeBot.Schemas;
 using HypercubeBot.ServiceRealisation;
+using HypercubeBot.Utils;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace HypercubeBot.Services;
@@ -9,13 +12,11 @@ namespace HypercubeBot.Services;
 [Service]
 public sealed class MongoService : IInitializable
 {
-    public event Action<GuildWrapper>? GuildCreated;
-    
     private MongoClient _client = default!;
     private IMongoDatabase _database = default!;
-    private IMongoCollection<Guild> _collection = default!;
+    private FrozenDictionary<Type, object> _collections;
     private readonly Logger _logger = default!;
-    private readonly Dictionary<string, WeakReference<GuildWrapper>> _guildWrappers = new();
+    private readonly Dictionary<string, object> _dataWrappers = new();
     
     public void Init()
     {
@@ -29,29 +30,36 @@ public sealed class MongoService : IInitializable
         _logger.Debug("Mongo client created");
         
         _database = _client.GetDatabase(databaseName);
-        _collection = _database.GetCollection<Guild>("Guilds");
-    }
 
-    public List<Guild> GetGuilds()
-    {
-        return _collection.Find(_ => true).ToList();
-    }
+        var dict = new Dictionary<Type, object>();
 
-    public GuildWrapper GetGuild(string guildId)
-    {
-        if (_guildWrappers.TryGetValue(guildId, out var weakRef) && weakRef.TryGetTarget(out var guild))
+        foreach (var (type, attribute) in ReflectionHelper.GetAllTypes<CollectionAttribute>())
         {
-            return guild;
+            var name = attribute.Name ?? type.Name;
+
+            _logger.Debug($"Register collection {name}");
+            var method = _database.GetType().GetMethod(nameof(_database.GetCollection));
+            if (method is null)
+                continue;
+            
+            var generic = method.MakeGenericMethod([type]);
+            dict[type] = generic.Invoke(_database, [name, null])!;
         }
         
-        var guildWrapper = new GuildWrapper(guildId, _collection);
-        _guildWrappers.Add(guildId, new WeakReference<GuildWrapper>(guildWrapper));
-        
-        if (guildWrapper.IsNewData)
-        {
-            GuildCreated?.Invoke(guildWrapper);
-        }
-        
-        return guildWrapper;
+        _collections = dict.ToFrozenDictionary();
+    }
+
+    public IEnumerable<DataWrapper<T, T>> GetData<T>() where T : Schema
+    {
+        return from item in ((IMongoCollection<T>)_collections[typeof(T)]).Find(_ => true).ToList() 
+            select GetData<T>(item.Id);
+    }
+
+    public DataWrapper<T, T> GetData<T>(string id) where T : Schema
+    {
+        if (_dataWrappers.TryGetValue(id, out var wrapper))
+            return (DataWrapper<T, T>)wrapper;
+
+        return new DataWrapper<T, T>((IMongoCollection<T>)_collections[typeof(T)], id);
     }
 }

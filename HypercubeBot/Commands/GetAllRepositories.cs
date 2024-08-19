@@ -2,6 +2,7 @@
 using Discord;
 using Discord.Interactions;
 using Discord.Rest;
+using HypercubeBot.Schemas;
 using HypercubeBot.Services;
 
 namespace HypercubeBot.Commands;
@@ -16,11 +17,11 @@ public class GetAllRepositoriesCommand : InteractionModuleBase
         await DeferAsync(ephemeral: true);
         
         var message = (RestFollowupMessage)await FollowupAsync("Fetching contributors...", ephemeral: true);
-        var guildData = _MongoService.GetGuild(Context.Guild.Id.ToString());
-        var repositories = guildData.Guild.Repositories;
+        var guildData = _MongoService.GetData<GuildSchema>(Context.Guild.Id.ToString());
+        var repositories = guildData.Data.Repositories;
         var content = "Repositories:\n\n";
 
-        if (guildData.Guild.Repositories.Count == 0)
+        if (guildData.Data.Repositories.Count == 0)
         {
             await message.ModifyAsync(props =>
             {

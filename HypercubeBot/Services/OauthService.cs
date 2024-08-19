@@ -8,7 +8,7 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 namespace HypercubeBot.Services;
 
 [Service]
-public class OAUTHService : IStartable
+public class OauthService : IStartable
 {
     public string RedirectUrl => $"{Environment.GetEnvironmentVariable("REDIRECT_URL")}";
     public string DiscordUrl => $"{Environment.GetEnvironmentVariable("DISCORD_API_ENDPOINT")}/oauth2/token";
@@ -39,8 +39,6 @@ public class OAUTHService : IStartable
             var response = context.Response;
             response.Close();
         }
-        
-        // ReSharper disable once FunctionNeverReturns
     }
     
     private string SanitizePath(string path)
