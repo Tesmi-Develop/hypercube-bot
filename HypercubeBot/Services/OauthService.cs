@@ -33,6 +33,8 @@ public class OauthService : IStartable
         _listener.Prefixes.Add(ListenUrl);
         _listener.Start();
         
+        _logger.Debug($"Started listener on {ListenUrl}");
+        
         var clientId = Environment.GetEnvironmentVariable("CLIENT_ID") ?? "0";
         var clientSecret = Environment.GetEnvironmentVariable("CLIENT_SECRET") ?? "0";
         var authValue = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
