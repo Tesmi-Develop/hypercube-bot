@@ -1,4 +1,5 @@
-﻿using Hypercube.Dependencies;
+﻿using dotenv.net;
+using Hypercube.Dependencies;
 using HypercubeBot.ServiceRealisation;
 
 namespace HypercubeBot;
@@ -7,6 +8,7 @@ public class Program
 {
     public static async Task Main(string[] args)
     {
+        DotEnv.Load();
         DependencyManager.InitThread();
         
         ServiceManager.CreateAll();

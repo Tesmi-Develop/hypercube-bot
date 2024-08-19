@@ -26,7 +26,7 @@ public sealed class MongoService : IInitializable
         
         Debug.Assert(mongoUri != null, "You must set your 'MONGODB_URI' environment variable.");
         Debug.Assert(databaseName != null, "You must set your 'MONGO_DATABASE_NAME' environment variable.");
-
+        
         _client = new MongoClient(mongoUri);
         _logger.Debug("Mongo client created");
         
