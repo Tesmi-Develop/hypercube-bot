@@ -18,6 +18,7 @@ public class OauthService : IStartable
     public string RedirectUrl => $"{Environment.GetEnvironmentVariable("REDIRECT_URL")}";
     public string DiscordUrl => $"{Environment.GetEnvironmentVariable("DISCORD_API_ENDPOINT")}/oauth2/token";
     public string HTTPUrl => Environment.GetEnvironmentVariable("HTTP_URI") ?? "http://localhost:8080/";
+    public string ListenUrl => Environment.GetEnvironmentVariable("LISTEN_URI") ?? "http://localhost:8080/";
 
     [Dependency] private readonly MongoService _mongoService = default!;
    
@@ -29,7 +30,7 @@ public class OauthService : IStartable
     {
         _client = new HttpClient();
         _listener = new HttpListener();
-        _listener.Prefixes.Add(HTTPUrl);
+        _listener.Prefixes.Add(ListenUrl);
         _listener.Start();
         
         var clientId = Environment.GetEnvironmentVariable("CLIENT_ID") ?? "0";
