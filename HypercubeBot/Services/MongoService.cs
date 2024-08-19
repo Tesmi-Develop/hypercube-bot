@@ -4,7 +4,6 @@ using Hypercube.Shared.Logging;
 using HypercubeBot.Schemas;
 using HypercubeBot.ServiceRealisation;
 using HypercubeBot.Utils;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace HypercubeBot.Services;
@@ -12,6 +11,8 @@ namespace HypercubeBot.Services;
 [Service]
 public sealed class MongoService : IInitializable
 {
+    public event Action<object>? SchemaAdded;
+    
     private MongoClient _client = default!;
     private IMongoDatabase _database = default!;
     private FrozenDictionary<Type, object> _collections;
@@ -47,19 +48,28 @@ public sealed class MongoService : IInitializable
         }
         
         _collections = dict.ToFrozenDictionary();
+        _logger.Debug("Collections registered");
     }
 
-    public IEnumerable<DataWrapper<T, T>> GetData<T>() where T : Schema
+    public IEnumerable<DataWrapper<T>> GetData<T>() where T : Schema
     {
         return from item in ((IMongoCollection<T>)_collections[typeof(T)]).Find(_ => true).ToList() 
             select GetData<T>(item.Id);
     }
 
-    public DataWrapper<T, T> GetData<T>(string id) where T : Schema
+    public DataWrapper<T> GetData<T>(string id) where T : Schema
     {
         if (_dataWrappers.TryGetValue(id, out var wrapper))
-            return (DataWrapper<T, T>)wrapper;
+            return (DataWrapper<T>)wrapper;
 
-        return new DataWrapper<T, T>((IMongoCollection<T>)_collections[typeof(T)], id);
+        var returned = new DataWrapper<T>((IMongoCollection<T>)_collections[typeof(T)], id, returned => SchemaAdded?.Invoke(returned));
+        _dataWrappers.Add(id, returned);
+        
+        return returned;
+    }
+
+    public bool HaveData<T>(string id) where T : Schema
+    {
+       return ((IMongoCollection<T>)_collections[typeof(T)]).Find(schema => schema.Id == id).FirstOrDefault() is not null;
     }
 }

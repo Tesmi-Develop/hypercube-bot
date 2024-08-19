@@ -71,10 +71,12 @@ public static class ServiceManager
                 ctors.Add(type);
             }
         }
+        
+        DependencyManager.InstantiateAll();
 
         foreach (var ctor in ctors)
         {
-            var service = DependencyManager.Instantiate(ctor);
+            var service = DependencyManager.Resolve(ctor);
             Services.Add(service);
 
             InjectLogger(service);

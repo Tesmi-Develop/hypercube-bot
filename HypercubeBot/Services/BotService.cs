@@ -14,6 +14,8 @@ namespace HypercubeBot.Services;
 [Service]
 public class BotService : IStartable
 {
+    public event Action? Connected;
+    public bool IsConnected => _client.ConnectionState == ConnectionState.Connected;
     public DiscordSocketClient Client => _client;
     
     private readonly Logger _logger = default!;
@@ -35,7 +37,7 @@ public class BotService : IStartable
             AlwaysDownloadUsers = true
         };
 
-        _dependencyWrapper = new DependencyContainerWrapper(DependencyManager.GetContainer());
+        _dependencyWrapper = new DependencyContainerWrapper(DependencyManager.Create());
         _client = new DiscordSocketClient(config);
         
         DependencyManager.Register<IServiceScopeFactory>(_ => new CustomServiceScopeFactory(_dependencyWrapper));
@@ -74,9 +76,38 @@ public class BotService : IStartable
             {
                 await _commands.RegisterCommandsGloballyAsync();
             }
+            Connected?.Invoke();
         };
         
         _logger.Debug("Bot created");
+    }
+    
+    public async Task AwardRole(string userId, string guildId, string roleId)
+    {
+        var guild = _client.GetGuild(ulong.Parse(guildId));
+        if (guild is null)
+            throw new ArgumentException("User not found");
+
+        var guildUser = guild.GetUser(ulong.Parse(userId));
+        if (guildUser is null)
+            throw new ArgumentException("User not found");
+        
+        await guildUser.AddRoleAsync(ulong.Parse(roleId));
+    }
+    
+    public bool HaveRole(string userId, string guildId, string roleId)
+    {
+        var guild = _client.GetGuild(ulong.Parse(guildId));
+        if (guild is null)
+            throw new ArgumentException("User not found");
+
+        var guildUser = guild.GetUser(ulong.Parse(userId));
+        if (guildUser is null)
+            throw new ArgumentException("User not found");
+
+        var roleIdUlong = ulong.Parse(roleId);
+        
+        return guildUser.Roles.FirstOrDefault(role => role.Id == roleIdUlong) is not null;
     }
     
     private async Task HandleInteraction (SocketInteraction arg)

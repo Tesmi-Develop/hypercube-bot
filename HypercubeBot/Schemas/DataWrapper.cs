@@ -2,15 +2,15 @@
 
 namespace HypercubeBot.Schemas;
 
-public class DataWrapper<T, TReadonly> where T : TReadonly where TReadonly : Schema
+public class DataWrapper<T> where T : Schema
 {
-    public TReadonly Data => _data;
+    public T Data => _data;
 
     private readonly T _data;
     private readonly IMongoCollection<T> _collection;
     private readonly string _id;
     
-    public DataWrapper(IMongoCollection<T> collection, string id, Action<TReadonly>? onCreate = null)
+    public DataWrapper(IMongoCollection<T> collection, string id, Action<DataWrapper<T>>? onCreate = null)
     {
         _id = id;
         _collection = collection;
@@ -21,7 +21,7 @@ public class DataWrapper<T, TReadonly> where T : TReadonly where TReadonly : Sch
         
         _data = (T)Activator.CreateInstance(typeof(T), args: [_id])!;
         _collection.InsertOne(_data);
-        onCreate?.Invoke(_data);
+        onCreate?.Invoke(this);
     }
 
     public void Mutate(Action<T> mutator)
