@@ -17,6 +17,10 @@
       <PackageReference Include="MongooseOS.Rpc" Version="2.0.1" />
     </ItemGroup>
 
+    <Target Name="DeleteEnv">
+        <Delete Files="$(OutDir).env" />
+    </Target>
+    
     <ItemGroup>
         <None Include=".\.env" Link="%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>
