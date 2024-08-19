@@ -8,16 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ccb13ff-4094-4828-990f-48f2f1a004ba" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/HypercubeBot/Classes/TrackingGuild.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HypercubeBot/Services/DiscordUserService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HypercubeBot/Services/TrackingGuilds.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HypercubeBot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HypercubeBot/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HypercubeBot/HypercubeBot.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/HypercubeBot.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HypercubeBot/Schemas/DataWrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Schemas/DataWrapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HypercubeBot/Schemas/DiscordUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Schemas/DiscordUserSchema.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HypercubeBot/Services/BotService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Services/BotService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HypercubeBot/Services/MongoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Services/MongoService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HypercubeBot/Services/OauthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Services/OauthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,7 +191,7 @@
       <workItem from="1723868363222" duration="5506000" />
       <workItem from="1723900351394" duration="17726000" />
       <workItem from="1723962251438" duration="26228000" />
-      <workItem from="1724041921112" duration="14397000" />
+      <workItem from="1724041921112" duration="18420000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <option name="closed" value="true" />
@@ -261,43 +254,17 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/HypercubeBot/Services/DiscordUserService.cs</url>
-          <line>34</line>
-          <properties documentPath="E:\Projects\C#\hypercube-bot\HypercubeBot\Services\DiscordUserService.cs" containingFunctionPresentation="Method 'GetUser'">
-            <startOffsets>
-              <option value="821" />
-            </startOffsets>
-            <endOffsets>
-              <option value="876" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="44" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/HypercubeBot/Program.cs</url>
-          <line>11</line>
-          <properties documentPath="E:\Projects\C#\hypercube-bot\HypercubeBot\Program.cs" containingFunctionPresentation="Method 'Main'">
+          <line>19</line>
+          <properties documentPath="E:\Projects\C#\hypercube-bot\HypercubeBot\Program.cs" containingFunctionPresentation="Method 'LoadEvn'">
             <startOffsets>
-              <option value="230" />
+              <option value="441" />
             </startOffsets>
             <endOffsets>
-              <option value="257" />
+              <option value="463" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="51" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/HypercubeBot/Program.cs</url>
-          <line>9</line>
-          <properties documentPath="E:\Projects\C#\hypercube-bot\HypercubeBot\Program.cs" containingFunctionPresentation="Method 'Main'">
-            <startOffsets>
-              <option value="181" />
-            </startOffsets>
-            <endOffsets>
-              <option value="212" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="52" />
+          <option name="timeStamp" value="57" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
