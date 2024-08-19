@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Discord.WebSocket;
+﻿using Discord.WebSocket;
 using Hypercube.Shared.Logging;
 using HypercubeBot.Schemas;
 using HypercubeBot.Services;
@@ -8,11 +7,11 @@ namespace HypercubeBot.Classes;
 
 public class TrackingGuild
 {
-    private DataWrapper<GuildSchema> _wrapper;
-    private BotService _botService;
-    private DiscordUserService _discordUserService;
-    private GithubService _githubService;
-    private Logger _logger = LoggingManager.GetLogger(nameof(TrackingGuild));
+    private readonly DataWrapper<GuildSchema> _wrapper;
+    private readonly BotService _botService;
+    private readonly DiscordUserService _discordUserService;
+    private readonly GithubService _githubService;
+    private readonly Logger _logger = LoggingManager.GetLogger(nameof(TrackingGuild));
 
     public TrackingGuild(DataWrapper<GuildSchema> wrapper, BotService botService, DiscordUserService discordUserService,
         GithubService githubService)
@@ -37,7 +36,7 @@ public class TrackingGuild
         };
     }
 
-    public async Task BotStarted()
+    private async Task BotStarted()
     {
         var trackingRate = int.Parse(Environment.GetEnvironmentVariable("TRAKING_RATE") ?? "10") * 1000;
         var guild = _botService.Client.GetGuild(ulong.Parse(_wrapper.Data.Id));
@@ -84,12 +83,9 @@ public class TrackingGuild
         var contributions = await _githubService.GetContributors(repository);
         if (contributions is null) return;
 
-        foreach (var contributor in contributions)
+        if (contributions.Any(contributor => contributor.Login == userGithub))
         {
-            //if (contributor.Login != userGithub) continue;
-         
             await _botService.AwardRole(userId, _wrapper.Data.Id, roleId);
-            break;
         }
     }
 }

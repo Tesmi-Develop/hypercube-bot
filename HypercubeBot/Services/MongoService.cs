@@ -15,7 +15,7 @@ public sealed class MongoService : IInitializable
     
     private MongoClient _client = default!;
     private IMongoDatabase _database = default!;
-    private FrozenDictionary<Type, object> _collections;
+    private FrozenDictionary<Type, object> _collections = default!;
     private readonly Logger _logger = default!;
     private readonly Dictionary<string, object> _dataWrappers = new();
     

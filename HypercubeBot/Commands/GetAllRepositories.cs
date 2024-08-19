@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Discord;
+﻿using Discord;
 using Discord.Interactions;
 using Discord.Rest;
 using HypercubeBot.Schemas;
@@ -9,7 +8,7 @@ namespace HypercubeBot.Commands;
 
 public class GetAllRepositoriesCommand : InteractionModuleBase
 {
-    public MongoService _MongoService { get; set; }
+    public MongoService MongoService { get; set; } = default!;
     
     [SlashCommand("get_all_repositories", "get all repositories"), CommandContextType(InteractionContextType.Guild)]
     public async Task GetAllRepositories()
@@ -17,7 +16,7 @@ public class GetAllRepositoriesCommand : InteractionModuleBase
         await DeferAsync(ephemeral: true);
         
         var message = (RestFollowupMessage)await FollowupAsync("Fetching contributors...", ephemeral: true);
-        var guildData = _MongoService.GetData<GuildSchema>(Context.Guild.Id.ToString());
+        var guildData = MongoService.GetData<GuildSchema>(Context.Guild.Id.ToString());
         var repositories = guildData.Data.Repositories;
         var content = "Repositories:\n\n";
 

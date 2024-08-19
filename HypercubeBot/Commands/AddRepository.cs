@@ -1,7 +1,7 @@
 ﻿using Discord;
-using Discord.Commands;
 using Discord.Interactions;
 using Discord.Rest;
+using Discord.WebSocket;
 using HypercubeBot.Schemas;
 using HypercubeBot.Services;
 
@@ -9,15 +9,19 @@ namespace HypercubeBot.Commands;
 
 public class AddRepositoryCommand : InteractionModuleBase
 {
-    public GithubService _GithubService { get; set; }
-    public MongoService _MongoService { get; set; }
+    // ReSharper disable once MemberCanBePrivate.Global
+    public GithubService GithubService { get; set; } = default!;
+    // ReSharper disable once MemberCanBePrivate.Global
+    public BotService BotService { get; set; } = default!;
+    // ReSharper disable once MemberCanBePrivate.Global
+    public MongoService MongoService { get; set; } = default!;
     
     [SlashCommand("add_repository", "add a repository"), CommandContextType(InteractionContextType.Guild)]
     public async Task AddRepository(string repositoryUrl, IRole role)
     {
         await DeferAsync(ephemeral: true);
         var message = (RestFollowupMessage)await FollowupAsync("Fetching contributors...", ephemeral: true);
-        var guildData = _MongoService.GetData<GuildSchema>(Context.Guild.Id.ToString());
+        var guildData = MongoService.GetData<GuildSchema>(Context.Guild.Id.ToString());
         
         if (guildData.Data.Repositories.ContainsKey(repositoryUrl))
         {
@@ -28,7 +32,17 @@ public class AddRepositoryCommand : InteractionModuleBase
             return;
         }
         
-        var contributors = await _GithubService.GetContributors(repositoryUrl);
+        var myRole = GetHightestMyRole(Context.Guild.Id);
+        if (myRole is null || role.Position >= myRole.Position)
+        {
+            await message.ModifyAsync(props =>
+            {
+                props.Content = "I can't give away that role";
+            });
+            return;
+        }
+        
+        var contributors = await GithubService.GetContributors(repositoryUrl);
         
         if (contributors is null)
         {
@@ -48,5 +62,22 @@ public class AddRepositoryCommand : InteractionModuleBase
         {
             props.Content = "Done!";
         });
+    }
+
+    private SocketRole? GetHightestMyRole(ulong guildId)
+    {
+        var guild = BotService.Client.Guilds.First(guild => guild.Id == guildId)!;
+        var roles = guild.Users.First(user => user.Id == BotService.Client.CurrentUser.Id).Roles;
+        var maxPosition = -1;
+        SocketRole? pickedRole = null;
+
+        foreach (var role in roles)
+        {
+            if (role.Position <= maxPosition) continue;
+            maxPosition = role.Position;
+            pickedRole = role;
+        }
+
+        return pickedRole;
     }
 }

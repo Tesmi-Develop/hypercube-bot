@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace HypercubeBot.Schemas;
+namespace HypercubeBot.Data;
 
 [Serializable]
 public struct Contributor

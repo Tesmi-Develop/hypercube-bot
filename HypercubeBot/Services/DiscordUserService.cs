@@ -28,8 +28,8 @@ public sealed class DiscordUserService
 
         return null;
     }
-    
-    public async Task<DiscordRestClient> GetUser(string userId)
+
+    private async Task<DiscordRestClient> GetUser(string userId)
     {
         if (!_mongoService.HaveData<DiscordUserSchema>(userId))
             throw new ArgumentException("User not found");
