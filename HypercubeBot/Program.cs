@@ -46,7 +46,7 @@ public class Program
         if (container.TryLoad(path))
             return container.Data;
         
-        logger.Error("Failed to load environment file. Created template file.");
+        logger.Error($"Failed to load environment file. Created template file: {path}");
         return null;
     }
     
