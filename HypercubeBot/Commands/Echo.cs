@@ -1,6 +1,4 @@
 ﻿using Discord.Interactions;
-using Hypercube.Dependencies;
-using HypercubeBot.Services;
 
 namespace HypercubeBot.Commands;
 

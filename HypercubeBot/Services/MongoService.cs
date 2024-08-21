@@ -1,6 +1,8 @@
 ﻿using System.Collections.Frozen;
 using System.Diagnostics;
+using Hypercube.Dependencies;
 using Hypercube.Shared.Logging;
+using HypercubeBot.Data;
 using HypercubeBot.Schemas;
 using HypercubeBot.ServiceRealisation;
 using HypercubeBot.Utils;
@@ -16,16 +18,15 @@ public sealed class MongoService : IInitializable
     private MongoClient _client = default!;
     private IMongoDatabase _database = default!;
     private FrozenDictionary<Type, object> _collections = default!;
+    
+    [Dependency] private readonly EnvironmentData _environmentData = default!;
     private readonly Logger _logger = default!;
     private readonly Dictionary<string, object> _dataWrappers = new();
     
     public void Init()
     {
-        var mongoUri = Environment.GetEnvironmentVariable("MONGO_URI");
-        var databaseName = Environment.GetEnvironmentVariable("MONGO_DATABASE_NAME");
-        
-        Debug.Assert(mongoUri != null, "You must set your 'MONGODB_URI' environment variable.");
-        Debug.Assert(databaseName != null, "You must set your 'MONGO_DATABASE_NAME' environment variable.");
+        var mongoUri = _environmentData.MongoUri;
+        var databaseName = _environmentData.MongoDatabaseName;
         
         _client = new MongoClient(mongoUri);
         _logger.Debug("Mongo client created");

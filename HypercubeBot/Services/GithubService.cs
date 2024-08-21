@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using Hypercube.Dependencies;
 using HypercubeBot.Data;
-using HypercubeBot.Schemas;
 using HypercubeBot.ServiceRealisation;
 
 namespace HypercubeBot.Services;

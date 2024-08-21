@@ -1,10 +1,10 @@
-﻿using System.Diagnostics;
-using System.Reflection;
+﻿using System.Reflection;
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
 using Hypercube.Dependencies;
 using Hypercube.Shared.Logging;
+using HypercubeBot.Data;
 using HypercubeBot.ServiceRealisation;
 using HypercubeBot.Utils;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,11 +15,12 @@ namespace HypercubeBot.Services;
 public class BotService : IStartable
 {
     public event Action? Connected;
-    public bool IsConnected => _client.ConnectionState == ConnectionState.Connected;
-    public DiscordSocketClient Client => _client;
-    
+    public bool IsConnected => Client.ConnectionState == ConnectionState.Connected;
+    public DiscordSocketClient Client { get; private set; } = default!;
+
+    [Dependency]
+    private readonly EnvironmentData _environmentData = default!;
     private readonly Logger _logger = default!;
-    private DiscordSocketClient _client = default!;
     private InteractionService _commands = default!;
     private DependencyContainerWrapper _dependencyWrapper = default!;
     
@@ -38,36 +39,32 @@ public class BotService : IStartable
         };
 
         _dependencyWrapper = new DependencyContainerWrapper(DependencyManager.Create());
-        _client = new DiscordSocketClient(config);
+        Client = new DiscordSocketClient(config);
         
         DependencyManager.Register<IServiceScopeFactory>(_ => new CustomServiceScopeFactory(_dependencyWrapper));
-        DependencyManager.Register(_client);
+        DependencyManager.Register(Client);
         DependencyManager.Register(x => new InteractionService(x.Resolve<DiscordSocketClient>()));
         
-        var token = Environment.GetEnvironmentVariable("TOKEN");
-        Debug.Assert(token != null, "Missing TOKEN environment variable");
-        
-        await _client.LoginAsync(TokenType.Bot, token);
-        await _client.StartAsync();
+        await Client.LoginAsync(TokenType.Bot, _environmentData.DiscordToken);
+        await Client.StartAsync();
 
-        _client.Log += message =>
+        Client.Log += message =>
         {
             _logger.Debug(message.ToString());
             return Task.CompletedTask;
         };
         
-        _client.Ready += async () =>
+        Client.Ready += async () =>
         {
-            _commands = new InteractionService(_client);
+            _commands = new InteractionService(Client);
             
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _dependencyWrapper);
 
-            _client.InteractionCreated += HandleInteraction;
+            Client.InteractionCreated += HandleInteraction;
 
             if (IsDebug())
             {
-                var guildId = Environment.GetEnvironmentVariable("TEST_GUILD");
-                Debug.Assert(guildId != null, "Missing TEST_GUILD environment variable");
+                var guildId = _environmentData.DiscordDevelopmentGuildId;
                 
                 await _commands.RegisterCommandsToGuildAsync(ulong.Parse(guildId));
                 _logger.Debug($"Commands registered to {guildId}");
@@ -84,7 +81,7 @@ public class BotService : IStartable
     
     public async Task AwardRole(string userId, string guildId, string roleId)
     {
-        var guild = _client.GetGuild(ulong.Parse(guildId));
+        var guild = Client.GetGuild(ulong.Parse(guildId));
         if (guild is null)
             throw new ArgumentException("User not found");
 
@@ -97,7 +94,7 @@ public class BotService : IStartable
     
     public bool HaveRole(string userId, string guildId, string roleId)
     {
-        var guild = _client.GetGuild(ulong.Parse(guildId));
+        var guild = Client.GetGuild(ulong.Parse(guildId));
         if (guild is null)
             throw new ArgumentException("User not found");
 
@@ -114,7 +111,7 @@ public class BotService : IStartable
     {
         try
         {
-            var ctx = new SocketInteractionContext(_client, arg);
+            var ctx = new SocketInteractionContext(Client, arg);
             await _commands.ExecuteCommandAsync(ctx, _dependencyWrapper);
         }
         catch (Exception ex)

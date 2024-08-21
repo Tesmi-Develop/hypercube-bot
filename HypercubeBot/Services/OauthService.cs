@@ -7,7 +7,6 @@ using Hypercube.Shared.Logging;
 using HypercubeBot.Data;
 using HypercubeBot.Schemas;
 using HypercubeBot.ServiceRealisation;
-using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace HypercubeBot.Services;
@@ -15,10 +14,7 @@ namespace HypercubeBot.Services;
 [Service]
 public class OauthService : IStartable
 {
-    public string RedirectUrl => $"{Environment.GetEnvironmentVariable("REDIRECT_URL")}";
-    public string DiscordUrl => $"{Environment.GetEnvironmentVariable("DISCORD_API_ENDPOINT")}/oauth2/token";
-    public string HTTPUrl => Environment.GetEnvironmentVariable("HTTP_URI") ?? "http://localhost:8080/";
-    public string ListenUrl => Environment.GetEnvironmentVariable("LISTEN_URI") ?? "http://localhost:8080/";
+    [Dependency] private readonly EnvironmentData _environmentData = default!;
 
     [Dependency] private readonly MongoService _mongoService = default!;
    
@@ -30,13 +26,13 @@ public class OauthService : IStartable
     {
         _client = new HttpClient();
         _listener = new HttpListener();
-        _listener.Prefixes.Add(ListenUrl);
+        _listener.Prefixes.Add(_environmentData.DiscordOauthHost);
         _listener.Start();
         
-        _logger.Debug($"Started listener on {ListenUrl}");
+        _logger.Debug($"Started listener on {_environmentData.DiscordOauthHost}");
         
-        var clientId = Environment.GetEnvironmentVariable("CLIENT_ID") ?? "0";
-        var clientSecret = Environment.GetEnvironmentVariable("CLIENT_SECRET") ?? "0";
+        var clientId = _environmentData.DiscordClientId;
+        var clientSecret = _environmentData.DiscordClientSecret;
         var authValue = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
         
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authValue);
@@ -63,23 +59,25 @@ public class OauthService : IStartable
     {
         var path = SanitizePath(context.Request.Url?.AbsolutePath ?? "");
         
-        if (path == $"/{RedirectUrl}")
+        if (path == $"/{_environmentData.DiscordOauthRedirectRoute}")
         {
            var code = context.Request.QueryString["code"];
-           if (code is null) return;
+           if (code is null) 
+               return;
           
            var data = new FormUrlEncodedContent(new[]
            {
                new KeyValuePair<string, string>("grant_type", "authorization_code"),
                new KeyValuePair<string, string>("code", code),
-               new KeyValuePair<string, string>("redirect_uri", $"{HTTPUrl}{RedirectUrl}")
+               new KeyValuePair<string, string>("redirect_uri", $"{_environmentData.DiscordOauthRedirectHost}{_environmentData.DiscordOauthRedirectRoute}"),
            });
 
-           var response = await _client.PostAsync(DiscordUrl, data);
+           var response = await _client.PostAsync($"{_environmentData.DiscordApiUri}{_environmentData.DiscordApiRoute}/oauth2/token", data);
            var content = await response.Content.ReadAsStringAsync();
            
            var apiToken = JsonSerializer.Deserialize<DiscordApiToken>(content);
-           if (apiToken is null) return;
+           if (apiToken is null) 
+               return;
            
            await ProcessApiToken(apiToken);
         }
@@ -121,11 +119,12 @@ public class OauthService : IStartable
             new KeyValuePair<string, string>("refresh_token", userData.Data.RefreshToken)
         });
 
-        var response = await _client.PostAsync(DiscordUrl, data);
+        var response = await _client.PostAsync($"{_environmentData.DiscordApiRoute}/oauth2/token", data);
         var content = await response.Content.ReadAsStringAsync();
         
         var apiToken = JsonSerializer.Deserialize<DiscordApiToken>(content);
-        if (apiToken is null) return;
+        if (apiToken is null) 
+            return;
         
         userData.Mutate(draft =>
         {

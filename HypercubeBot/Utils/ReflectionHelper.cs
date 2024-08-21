@@ -1,4 +1,6 @@
-﻿namespace HypercubeBot.Utils;
+﻿using System.Reflection;
+
+namespace HypercubeBot.Utils;
 
 public static class ReflectionHelper
 {
@@ -12,5 +14,15 @@ public static class ReflectionHelper
     public static IEnumerable<Type> GetAllTypes()
     {
         return AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes());
+    }
+    
+    public static T? GetAttribute<T>(FieldInfo field) where T : Attribute
+    {
+        foreach (var customAttribute in field.GetCustomAttributes())
+        {
+            if (customAttribute is T attribute)
+                return attribute;
+        }
+        return null;
     }
 }

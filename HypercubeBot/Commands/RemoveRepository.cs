@@ -3,12 +3,12 @@ using Discord.Interactions;
 using Discord.Rest;
 using HypercubeBot.Schemas;
 using HypercubeBot.Services;
+// ReSharper disable once MemberCanBePrivate.Global
 
 namespace HypercubeBot.Commands;
 
 public class RemoveRepositoryCommand : InteractionModuleBase
 {
-    // ReSharper disable once MemberCanBePrivate.Global
     public MongoService MongoService { get; set; } = default!;
     
     [SlashCommand("remove_repository", "remove a repository"), CommandContextType(InteractionContextType.Guild)]

@@ -3,6 +3,7 @@ using Discord.Interactions;
 using Discord.Rest;
 using HypercubeBot.Schemas;
 using HypercubeBot.Services;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace HypercubeBot.Commands;
 

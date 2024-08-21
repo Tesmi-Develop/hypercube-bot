@@ -4,16 +4,14 @@ using Discord.Rest;
 using Discord.WebSocket;
 using HypercubeBot.Schemas;
 using HypercubeBot.Services;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace HypercubeBot.Commands;
 
 public class AddRepositoryCommand : InteractionModuleBase
 {
-    // ReSharper disable once MemberCanBePrivate.Global
     public GithubService GithubService { get; set; } = default!;
-    // ReSharper disable once MemberCanBePrivate.Global
     public BotService BotService { get; set; } = default!;
-    // ReSharper disable once MemberCanBePrivate.Global
     public MongoService MongoService { get; set; } = default!;
     
     [SlashCommand("add_repository", "add a repository"), CommandContextType(InteractionContextType.Guild)]

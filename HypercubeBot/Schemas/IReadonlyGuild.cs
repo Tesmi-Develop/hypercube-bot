@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson;
-
-namespace HypercubeBot.Schemas;
+﻿namespace HypercubeBot.Schemas;
 
 public interface IReadonlyGuild
 {
