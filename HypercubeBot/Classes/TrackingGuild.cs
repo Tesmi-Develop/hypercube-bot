@@ -4,6 +4,7 @@ using Hypercube.Shared.Logging;
 using HypercubeBot.Environments;
 using HypercubeBot.Schemas;
 using HypercubeBot.Services;
+// ReSharper disable FunctionNeverReturns
 
 namespace HypercubeBot.Classes;
 
@@ -58,7 +59,6 @@ public sealed class TrackingGuild
                 }
             }
         }
-        // ReSharper disable once FunctionNeverReturns
     }
     
     private async Task ProcessUser(SocketGuildUser user)

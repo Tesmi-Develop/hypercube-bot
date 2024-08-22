@@ -10,8 +10,8 @@ public static class ReflectionHelper
             from customAttribute in type.GetCustomAttributes(typeof(T), false)
             select new KeyValuePair<Type, T>(type, (T) customAttribute);
     }
-    
-    public static IEnumerable<Type> GetAllTypes()
+
+    private static IEnumerable<Type> GetAllTypes()
     {
         return AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes());
     }

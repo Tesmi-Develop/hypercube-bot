@@ -8,7 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ccb13ff-4094-4828-990f-48f2f1a004ba" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/HypercubeBot/Commands/GetoauthUrl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Commands/GetoauthUrl.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Services/HttpService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Services/HttpService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HypercubeBot/Services/OauthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Services/OauthService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -106,6 +106,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b3f2556e145b635710db5f36db124e9edb9b55b7ab8facb6b5ce782b7a5664b/Annotations.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b668d24667a5865825b809b05ed18e6f5a2d3ee3c1f77253f67d416737e/RequestOptions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b7208b3f72528d22781d25fde9a55271bdf2b5aade4f03b1324579a25493cd8/List.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b9d7949cba808a48d01ed7bfa4a7d1a56405ad868f8caf6ac5172adbfc6b2a/DiscordSocketClient.Events.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc6de34d629db31f4d493c146b004f70e882f4c9ef6dd0ee74a4b8e6238816/AllowedMentions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c1c946eaa6d8ddaaea1b63e936ca8ed2791d9316c5b025a41d445891e8a59ecd/DefaultInterpolatedStringHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c2193d455f4eb674542abaa53aa1e506f476d57454e5aa7b16b8271bb42fdd/IFindFluent.cs" root0="SKIP_HIGHLIGHTING" />
@@ -163,17 +164,18 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Project.HypercubeBot.executor": "Run",
+    ".NET Project.HypercubeBot.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "XThreadsFramesViewSplitterKey": "0.3364486",
     "full.screen.before.presentation.mode": "false",
     "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "CodeLensConfigurable",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -223,6 +225,7 @@
       <workItem from="1724164555128" duration="5830000" />
       <workItem from="1724171102988" duration="6158000" />
       <workItem from="1724214543590" duration="13467000" />
+      <workItem from="1724313412202" duration="1943000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <option name="closed" value="true" />

@@ -4,9 +4,8 @@ namespace HypercubeBot.Schemas;
 
 public class DataWrapper<T> where T : Schema
 {
-    public T Data => _data;
+    public T Data { get; }
 
-    private readonly T _data;
     private readonly IMongoCollection<T> _collection;
     private readonly string _id;
     
@@ -14,24 +13,24 @@ public class DataWrapper<T> where T : Schema
     {
         _id = id;
         _collection = collection;
-        _data = _collection.Find(item => item.Id == _id).FirstOrDefault();
+        Data = _collection.Find(item => item.Id == _id).FirstOrDefault();
         
-        if (_data is not null) 
+        if (Data is not null) 
             return;
         
-        _data = (T)Activator.CreateInstance(typeof(T), args: [_id])!;
-        _collection.InsertOne(_data);
+        Data = (T)Activator.CreateInstance(typeof(T), args: [_id])!;
+        _collection.InsertOne(Data);
         onCreate?.Invoke(this);
     }
 
     public void Mutate(Action<T> mutator)
     {
-        mutator(_data);
+        mutator(Data);
         Update();
     }
 
     private void Update()
     {
-        _collection.ReplaceOne(item => item.Id == _id, _data);
+        _collection.ReplaceOne(item => item.Id == _id, Data);
     }
 }

@@ -3,7 +3,7 @@
 namespace HypercubeBot.Schemas;
 
 [Serializable, Collection("Guilds"), PublicAPI]
-public sealed class GuildSchema : Schema, IReadonlyGuild
+public sealed class GuildSchema : Schema
 {
     public Dictionary<string, string> Repositories { get; set; } = new();
 

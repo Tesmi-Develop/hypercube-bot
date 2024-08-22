@@ -55,7 +55,7 @@ public static class ServiceManager
         
         _isCreated = true;
 
-        var ctors = new List<Type>();
+        var types = new List<Type>();
         
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
@@ -68,19 +68,18 @@ public static class ServiceManager
                     continue;
 
                 DependencyManager.Register(type, type);
-                ctors.Add(type);
+                types.Add(type);
             }
         }
         
         DependencyManager.InstantiateAll();
 
-        foreach (var ctor in ctors)
+        foreach (var ctor in types)
         {
             var service = DependencyManager.Resolve(ctor);
             Services.Add(service);
 
             InjectLogger(service);
-                
             Logger.Debug($"Instantiated {ctor.Name}");
         }
     }

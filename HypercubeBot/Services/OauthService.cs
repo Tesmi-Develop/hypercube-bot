@@ -19,16 +19,20 @@ public sealed class OauthService : IStartable
     [Dependency] private readonly MongoService _mongoService = default!;
    
     private readonly Logger _logger = default!;
-    private HttpListener _listener = default!;
-    private HttpClient _client = default!;
+    private readonly HttpListener _listener = new();
+    private readonly HttpClient _client = new();
+    
+    private static string SanitizePath(string path)
+    {
+        if (path.Last() == '/')
+            path = path[..^1];
+        return path;
+    }
     
     public async Task Start()
     {
-        _client = new HttpClient();
-        _listener = new HttpListener();
         _listener.Prefixes.Add(_environmentData.DiscordOauthHost);
         _listener.Start();
-        
         _logger.Debug($"Started listener on {_environmentData.DiscordOauthHost}");
         
         var clientId = _environmentData.DiscordClientId;
@@ -46,13 +50,6 @@ public sealed class OauthService : IStartable
             var response = context.Response;
             response.Close();
         }
-    }
-    
-    private string SanitizePath(string path)
-    {
-        if (path.Last() == '/')
-            path = path[..^1];
-        return path;
     }
 
     private async Task ProcessContextAsync(HttpListenerContext context)
@@ -99,16 +96,6 @@ public sealed class OauthService : IStartable
         });
         
         _logger.Debug($"Logged new user {client.CurrentUser.Username}");
-    }
-
-    public async Task RefreshToken(string userId)
-    {
-        if (!_mongoService.HaveData<DiscordUserSchema>(userId))
-        {
-            throw new ArgumentException("User not found");
-        }
-
-        await RefreshToken(_mongoService.GetData<DiscordUserSchema>(userId));
     }
     
     public async Task RefreshToken(DataWrapper<DiscordUserSchema> userData)
