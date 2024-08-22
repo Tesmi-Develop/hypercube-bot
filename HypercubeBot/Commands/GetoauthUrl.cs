@@ -1,14 +1,12 @@
-﻿using System.Diagnostics;
-using Discord.Interactions;
-using HypercubeBot.Data;
-using HypercubeBot.Services;
-// ReSharper disable MemberCanBePrivate.Global
+﻿using Discord.Interactions;
+using HypercubeBot.Environments;
+using JetBrains.Annotations;
 
 namespace HypercubeBot.Commands;
 
-public class GetOauthUrlCommand : InteractionModuleBase
+[PublicAPI]
+public sealed class GetOauthUrlCommand : InteractionModuleBase
 {
-    public OauthService OauthService { get; set; } = default!;
     public EnvironmentData EnvironmentData { get; set; } = default!;
     
     [SlashCommand("get_oauth", "Get oauth url")]

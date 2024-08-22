@@ -8,7 +8,7 @@ using HypercubeBot.Services;
 
 namespace HypercubeBot.Commands;
 
-public class AddRepositoryCommand : InteractionModuleBase
+public sealed class AddRepositoryCommand : InteractionModuleBase
 {
     public GithubService GithubService { get; set; } = default!;
     public BotService BotService { get; set; } = default!;

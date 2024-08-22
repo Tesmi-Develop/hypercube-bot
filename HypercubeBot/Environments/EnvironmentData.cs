@@ -1,7 +1,6 @@
-﻿using HypercubeBot.Environments;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
-namespace HypercubeBot.Data;
+namespace HypercubeBot.Environments;
 
 [PublicAPI]
 public sealed class EnvironmentData

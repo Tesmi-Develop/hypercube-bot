@@ -4,7 +4,7 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using Hypercube.Dependencies;
 using Hypercube.Shared.Logging;
-using HypercubeBot.Data;
+using HypercubeBot.Environments;
 using HypercubeBot.ServiceRealisation;
 using HypercubeBot.Utils;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,19 +12,18 @@ using Microsoft.Extensions.DependencyInjection;
 namespace HypercubeBot.Services;
 
 [Service]
-public class BotService : IStartable
+public sealed class BotService : IStartable
 {
     public event Action? Connected;
     public bool IsConnected => Client.ConnectionState == ConnectionState.Connected;
-    public DiscordSocketClient Client { get; private set; } = default!;
+    public readonly DiscordSocketClient Client;
 
-    [Dependency]
-    private readonly EnvironmentData _environmentData = default!;
+    [Dependency] private readonly EnvironmentData _environmentData = default!;
     private readonly Logger _logger = default!;
     private InteractionService _commands = default!;
     private DependencyContainerWrapper _dependencyWrapper = default!;
-    
-    public async Task Start()
+
+    public BotService()
     {
         var config = new DiscordSocketConfig()
         {
@@ -37,77 +36,92 @@ public class BotService : IStartable
                              GatewayIntents.GuildEmojis,
             AlwaysDownloadUsers = true
         };
-
-        _dependencyWrapper = new DependencyContainerWrapper(DependencyManager.Create());
+        
         Client = new DiscordSocketClient(config);
+    }
+    
+    public async Task Start()
+    {
+        InitDependency();
+        ConnectToEvents();
+        
+        await Client.LoginAsync(TokenType.Bot, _environmentData.DiscordToken);
+        await Client.StartAsync();
+        
+        _logger.Debug("Bot created");
+    }
+
+    private SocketGuildUser GetUserInGuild(string userId, string guildId)
+    {
+        var guild = Client.GetGuild(ulong.Parse(guildId));
+        if (guild is null)
+            throw new ArgumentException("User not found");
+
+        var guildUser = guild.GetUser(ulong.Parse(userId));
+        if (guildUser is null)
+            throw new ArgumentException("User not found");
+
+        return guildUser;
+    }
+    
+    public async Task AwardRole(string userId, string guildId, string roleId)
+    {
+        var guildUser = GetUserInGuild(userId, guildId);
+        await guildUser.AddRoleAsync(ulong.Parse(roleId));
+    }
+    
+    public bool HaveRole(string userId, string guildId, string roleId)
+    {
+        var guildUser = GetUserInGuild(userId, guildId);
+        var roleIdUlong = ulong.Parse(roleId);
+        
+        return guildUser.Roles.FirstOrDefault(role => role.Id == roleIdUlong) is not null;
+    }
+    
+    private void InitDependency()
+    {
+        _dependencyWrapper = new DependencyContainerWrapper(DependencyManager.Create());
         
         DependencyManager.Register<IServiceScopeFactory>(_ => new CustomServiceScopeFactory(_dependencyWrapper));
         DependencyManager.Register(Client);
         DependencyManager.Register(x => new InteractionService(x.Resolve<DiscordSocketClient>()));
-        
-        await Client.LoginAsync(TokenType.Bot, _environmentData.DiscordToken);
-        await Client.StartAsync();
+    }
 
+    private void ConnectToEvents()
+    {
         Client.Log += message =>
         {
             _logger.Debug(message.ToString());
             return Task.CompletedTask;
         };
         
+        Client.InteractionCreated += HandleInteraction;
+        
         Client.Ready += async () =>
         {
             _commands = new InteractionService(Client);
-            
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _dependencyWrapper);
-
-            Client.InteractionCreated += HandleInteraction;
-
-            if (IsDebug())
-            {
-                var guildId = _environmentData.DiscordDevelopmentGuildId;
-                
-                await _commands.RegisterCommandsToGuildAsync(ulong.Parse(guildId));
-                _logger.Debug($"Commands registered to {guildId}");
-            }
-            else
-            {
-                await _commands.RegisterCommandsGloballyAsync();
-            }
+            await RegisterCommands();
+            
             Connected?.Invoke();
         };
-        
-        _logger.Debug("Bot created");
     }
     
-    public async Task AwardRole(string userId, string guildId, string roleId)
+    private async Task RegisterCommands()
     {
-        var guild = Client.GetGuild(ulong.Parse(guildId));
-        if (guild is null)
-            throw new ArgumentException("User not found");
-
-        var guildUser = guild.GetUser(ulong.Parse(userId));
-        if (guildUser is null)
-            throw new ArgumentException("User not found");
+        if (Program.IsDebug)
+        {
+            var guildId = _environmentData.DiscordDevelopmentGuildId;
+                
+            await _commands.RegisterCommandsToGuildAsync(ulong.Parse(guildId));
+            _logger.Debug($"Commands registered to {guildId}");
+            return;
+        }
         
-        await guildUser.AddRoleAsync(ulong.Parse(roleId));
+        await _commands.RegisterCommandsGloballyAsync();
     }
     
-    public bool HaveRole(string userId, string guildId, string roleId)
-    {
-        var guild = Client.GetGuild(ulong.Parse(guildId));
-        if (guild is null)
-            throw new ArgumentException("User not found");
-
-        var guildUser = guild.GetUser(ulong.Parse(userId));
-        if (guildUser is null)
-            throw new ArgumentException("User not found");
-
-        var roleIdUlong = ulong.Parse(roleId);
-        
-        return guildUser.Roles.FirstOrDefault(role => role.Id == roleIdUlong) is not null;
-    }
-    
-    private async Task HandleInteraction (SocketInteraction arg)
+    private async Task HandleInteraction(SocketInteraction arg)
     {
         try
         {
@@ -123,14 +137,5 @@ public class BotService : IStartable
                 await arg.GetOriginalResponseAsync().ContinueWith(async (msg) => await msg.Result.DeleteAsync());
             }
         }
-    }
-
-    private static bool IsDebug( )
-    {
-        #if DEBUG
-            return true;
-        #else
-            return false;
-        #endif
     }
 }

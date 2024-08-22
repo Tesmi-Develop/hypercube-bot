@@ -1,21 +1,21 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using Discord;
 using Discord.Rest;
 using Hypercube.Dependencies;
 using Hypercube.Shared.Logging;
 using HypercubeBot.Data;
+using HypercubeBot.Environments;
 using HypercubeBot.Schemas;
 using HypercubeBot.ServiceRealisation;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace HypercubeBot.Services;
 
 [Service]
-public class OauthService : IStartable
+public sealed class OauthService : IStartable
 {
     [Dependency] private readonly EnvironmentData _environmentData = default!;
-
     [Dependency] private readonly MongoService _mongoService = default!;
    
     private readonly Logger _logger = default!;
@@ -59,28 +59,28 @@ public class OauthService : IStartable
     {
         var path = SanitizePath(context.Request.Url?.AbsolutePath ?? "");
         
-        if (path == $"/{_environmentData.DiscordOauthRedirectRoute}")
-        {
-           var code = context.Request.QueryString["code"];
-           if (code is null) 
-               return;
+        if (path != $"/{_environmentData.DiscordOauthRedirectRoute}")
+            return;
+        
+        var code = context.Request.QueryString["code"];
+        if (code is null) 
+            return;
           
-           var data = new FormUrlEncodedContent(new[]
-           {
-               new KeyValuePair<string, string>("grant_type", "authorization_code"),
-               new KeyValuePair<string, string>("code", code),
-               new KeyValuePair<string, string>("redirect_uri", $"{_environmentData.DiscordOauthRedirectHost}{_environmentData.DiscordOauthRedirectRoute}"),
-           });
+        var data = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("grant_type", "authorization_code"),
+            new KeyValuePair<string, string>("code", code),
+            new KeyValuePair<string, string>("redirect_uri", $"{_environmentData.DiscordOauthRedirectHost}{_environmentData.DiscordOauthRedirectRoute}"),
+        });
 
-           var response = await _client.PostAsync($"{_environmentData.DiscordApiUri}{_environmentData.DiscordApiRoute}/oauth2/token", data);
-           var content = await response.Content.ReadAsStringAsync();
+        var response = await _client.PostAsync($"{_environmentData.DiscordApiUri}{_environmentData.DiscordApiRoute}/oauth2/token", data);
+        var content = await response.Content.ReadAsStringAsync();
+        
+        var apiToken = JsonSerializer.Deserialize<DiscordApiToken>(content);
+        if (apiToken is null) 
+            return;
            
-           var apiToken = JsonSerializer.Deserialize<DiscordApiToken>(content);
-           if (apiToken is null) 
-               return;
-           
-           await ProcessApiToken(apiToken);
-        }
+        await ProcessApiToken(apiToken);
     }
 
     private async Task ProcessApiToken(DiscordApiToken apiToken)

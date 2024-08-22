@@ -1,6 +1,5 @@
 ﻿using dotenv.net;
 using Hypercube.Shared.Utilities.Extensions;
-using HypercubeBot.Data;
 using HypercubeBot.Utils;
 using HypercubeBot.Utils.Extensions;
 using JetBrains.Annotations;
@@ -8,7 +7,7 @@ using JetBrains.Annotations;
 namespace HypercubeBot.Environments;
 
 [PublicAPI]
-public class EnvironmentContainer
+public sealed class EnvironmentContainer
 {
     public EnvironmentData Data { get; } = new();
 

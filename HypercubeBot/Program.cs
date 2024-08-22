@@ -1,16 +1,27 @@
 ﻿using Hypercube.Dependencies;
 using Hypercube.Shared.Logging;
-using HypercubeBot.Data;
 using HypercubeBot.Environments;
 using HypercubeBot.ServiceRealisation;
 
 namespace HypercubeBot;
 
-public class Program
+public static class Program
 {
+    public static bool IsDebug
+    {
+        get
+        {
+#if DEBUG
+            return true;
+#else
+            return false;
+#endif
+        }
+    }
+
     private static bool _running;
     
-    public static Task Main(string[] args)
+    public static Task Main()
     {
         var solutionPath = Path.GetFullPath(@"..\..\..\");
         var filePath = Path.Combine(solutionPath, ".env");

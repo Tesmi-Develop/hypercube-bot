@@ -1,13 +1,13 @@
 ﻿using Discord.WebSocket;
 using Hypercube.Dependencies;
 using Hypercube.Shared.Logging;
-using HypercubeBot.Data;
+using HypercubeBot.Environments;
 using HypercubeBot.Schemas;
 using HypercubeBot.Services;
 
 namespace HypercubeBot.Classes;
 
-public class TrackingGuild
+public sealed class TrackingGuild
 {
     [Dependency] private readonly EnvironmentData _environmentData = default!;
     [Dependency] private readonly BotService _botService = default!;
