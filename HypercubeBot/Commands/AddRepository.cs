@@ -2,6 +2,7 @@
 using Discord.Interactions;
 using Discord.Rest;
 using Discord.WebSocket;
+using HypercubeBot.Embeds;
 using HypercubeBot.Schemas;
 using HypercubeBot.Services;
 // ReSharper disable MemberCanBePrivate.Global
@@ -18,25 +19,23 @@ public sealed class AddRepositoryCommand : InteractionModuleBase
     public async Task AddRepository(string repositoryUrl, IRole role)
     {
         await DeferAsync(ephemeral: true);
-        var message = (RestFollowupMessage)await FollowupAsync("Fetching contributors...", ephemeral: true);
+        
+        var embed = new MessageWithEmbed(description: "Fetching contributors...");
+        var message = (RestFollowupMessage)await FollowupAsync(ephemeral: true, embed: embed.Embed.Build());
+        embed.BindMessage(message);
+        
         var guildData = MongoService.GetData<GuildSchema>(Context.Guild.Id.ToString());
         
         if (guildData.Data.Repositories.ContainsKey(repositoryUrl))
         {
-            await message.ModifyAsync(props =>
-            {
-                props.Content = "Repository already exists";
-            });
+            await embed.SetDescription("Repository already exists");
             return;
         }
         
         var myRole = GetHightestMyRole(Context.Guild.Id);
         if (myRole is null || role.Position >= myRole.Position)
         {
-            await message.ModifyAsync(props =>
-            {
-                props.Content = "I can't give away that role";
-            });
+            await embed.SetDescription("I can't give away that role");
             return;
         }
         
@@ -44,10 +43,7 @@ public sealed class AddRepositoryCommand : InteractionModuleBase
         
         if (contributors is null)
         {
-            await message.ModifyAsync(props =>
-            {
-                props.Content = "Invalid repository url";
-            });
+            await embed.SetDescription("Invalid repository url");
             return;
         }
         
@@ -56,10 +52,7 @@ public sealed class AddRepositoryCommand : InteractionModuleBase
             draft.Repositories[repositoryUrl] = role.Id.ToString();
         });
         
-        await message.ModifyAsync(props =>
-        {
-            props.Content = "Done!";
-        });
+        await embed.SetDescription("Done!");
     }
 
     private SocketRole? GetHightestMyRole(ulong guildId)

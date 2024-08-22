@@ -8,8 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ccb13ff-4094-4828-990f-48f2f1a004ba" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/HypercubeBot/Services/HttpService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Services/HttpService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HypercubeBot/Services/OauthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Services/OauthService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HypercubeBot/Commands/TestEmbedCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HypercubeBot/Embeds/DefaultEmbed.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.HypercubeBot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HypercubeBot/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Commands/AddRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Commands/AddRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Services/BotService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Services/BotService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HypercubeBot/Services/GithubService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HypercubeBot/Services/GithubService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +39,10 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/2aade6beb02ea367fd97c4070a4198802fe61c03/src/libraries/System.Collections.Immutable/src/System/Collections/Immutable/ImmutableArray_1.Minimal.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/2aade6beb02ea367fd97c4070a4198802fe61c03/src/libraries/System.Collections/src/System/Collections/BitArray.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/2aade6beb02ea367fd97c4070a4198802fe61c03/src/libraries/System.Net.Http/src/System/Net/Http/Headers/HttpHeaders.cs" root0="SKIP_HIGHLIGHTING" />
@@ -60,6 +68,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/15b92c31726693a1d6765b37ac18b627dec71e3636cde1a4a438d25b8679d6f/SocketGuild.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1b555b241b69d56fb42b4bc489283287efca921d278ab43024db6091625b30/IMongoDatabase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1bdc36dd4183e28bfc782d741e368f6faf4ad8397bd232ec65613e2373e/Object.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/251eafc1245f183fbe94343ada337c217c03828f6b09475bdef3b56dd5c778a/IUserMessage.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/26ba8f5873710a524abda74be4e1f75c3956056730407de5eb1595c42c71/IIntegration.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/27e3d46b469e5a59c2e6af5ed771658571db096d1182fa3f3b7d0c69e4d5e62/SocketInteractionContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2a444d13bf9f85f4aa948c4578ae62bcf6d1f52a7dabdecbc8098714679867/MessageComponent.cs" root0="SKIP_HIGHLIGHTING" />
@@ -127,10 +136,12 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/de1dc94e26de2eb8cdb9b19e9451c6a0738025b875978dc863de7ba87ee78c4/ServiceCollectionServiceExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e0bea4e5f03899efe75dc4dcf582f230702687c5ac6269866345ce4aae5d8a36/ServiceProviderServiceExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e0e5c0b49d93498d7f6f8869ae0a3851acdf7da7dfeb8dc0703768182ed79/AllowedMentionTypes.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e368ae8d57a97317f59e186191e7aa9fdc5565664297b5976371332427d3a/RestUserMessage.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e68a88b29ad087945ac00a2905bc3616b7892a8413bedf1c0cbfbd6f53bda88/MessageReference.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e93015425b6d8ef9b252f27771539ad919c4d8ae9b59f112f2b8ea522176a6/IntrospectionExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ead1a4039de1f23771934b73bb8fc1da7b72f5c896743e1b10aafc538e1cf7/DiscordRestConfig.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ebeee34b50d7513e3ab0ee85d7a04535c13dd213113d8732a2861803f8cbbf3/CommandInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f4c0c77ce4cd12828a53badb98ae82b7147048d4db57985ee1944d2231937cf3/RestFollowupMessage.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f53745e7f6e85d65317047eeae9af151fe9aca1cb284d27e5c83962a50be46/ServiceDescriptor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/fb367341658aaedd7de424d4c9189db33c4387e268dcc4011918569442ab12/AsyncTaskMethodBuilderT.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/fdb2fc9cb0c1dbd0b5f81090dca6bc7d2bf3aa37ee5b1681a94d6af32ede447/ThreadLocal.cs" root0="SKIP_HIGHLIGHTING" />
@@ -166,7 +177,7 @@
   "keyToString": {
     ".NET Project.HypercubeBot.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "XThreadsFramesViewSplitterKey": "0.3364486",
+    "XThreadsFramesViewSplitterKey": "0.92113566",
     "full.screen.before.presentation.mode": "false",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
@@ -225,7 +236,7 @@
       <workItem from="1724164555128" duration="5830000" />
       <workItem from="1724171102988" duration="6158000" />
       <workItem from="1724214543590" duration="13467000" />
-      <workItem from="1724313412202" duration="1943000" />
+      <workItem from="1724313412202" duration="6202000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <option name="closed" value="true" />
@@ -285,6 +296,23 @@
     <option name="LAST_COMMIT_MESSAGE" value="feat: added BotService, GithubService" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/HypercubeBot/Commands/AddRepository.cs</url>
+          <line>45</line>
+          <properties documentPath="E:\Projects\C#\hypercube-bot\HypercubeBot\Commands\AddRepository.cs" containingFunctionPresentation="Method 'AddRepository'">
+            <startOffsets>
+              <option value="1638" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1685" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Type#HypercubeBot.Schemas.Guild" memberName="GuildId" />

@@ -95,14 +95,13 @@ public sealed class BotService : IStartable
             return Task.CompletedTask;
         };
         
-        Client.InteractionCreated += HandleInteraction;
-        
         Client.Ready += async () =>
         {
             _commands = new InteractionService(Client);
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _dependencyWrapper);
             await RegisterCommands();
             
+            Client.InteractionCreated += HandleInteraction;
             Connected?.Invoke();
         };
     }
@@ -132,7 +131,7 @@ public sealed class BotService : IStartable
         {
             Console.WriteLine(ex);
            
-            if(arg.Type == InteractionType.ApplicationCommand)
+            if (arg.Type == InteractionType.ApplicationCommand)
             {
                 await arg.GetOriginalResponseAsync().ContinueWith(async (msg) => await msg.Result.DeleteAsync());
             }
