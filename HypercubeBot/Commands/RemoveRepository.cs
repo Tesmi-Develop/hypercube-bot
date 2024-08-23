@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Interactions;
 using Discord.Rest;
+using HypercubeBot.Embeds;
 using HypercubeBot.Schemas;
 using HypercubeBot.Services;
 // ReSharper disable once MemberCanBePrivate.Global
@@ -15,16 +16,15 @@ public class RemoveRepositoryCommand : InteractionModuleBase
     public async Task RemoveRepository(string repositoryUrl)
     {
         await DeferAsync(ephemeral: true);
-        var message = (RestFollowupMessage)await FollowupAsync("Processing...", ephemeral: true);
+        var embed = new MessageWithEmbed(description: "Processing...");
+        var message = (RestFollowupMessage) await FollowupAsync(ephemeral: true, embed: embed.Embed.Build());
+        embed.BindMessage(message);
         
         var guildData = MongoService.GetData<GuildSchema>(Context.Guild.Id.ToString());
 
         if (!guildData.Data.Repositories.ContainsKey(repositoryUrl))
         {
-            await message.ModifyAsync(props =>
-            {
-                props.Content = "Repository not found";
-            });
+            await embed.SetDescription("Repository not found");
             return;
         }
         
@@ -33,9 +33,6 @@ public class RemoveRepositoryCommand : InteractionModuleBase
             draft.Repositories.Remove(repositoryUrl);
         });
         
-        await message.ModifyAsync(props =>
-        {
-            props.Content = "Done!";
-        });
+        await embed.SetDescription("Done!");
     }
 }
